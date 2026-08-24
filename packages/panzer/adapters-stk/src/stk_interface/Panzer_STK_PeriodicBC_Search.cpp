@@ -264,7 +264,7 @@ void updateMapping(Teuchos::RCP<std::vector<std::pair<size_t,size_t> > > & curre
 
    // create teuchos maps
    auto computeInternally = Teuchos::OrdinalTraits<Tpetra::global_size_t>::invalid();
-   Teuchos::RCP<const Map> testMap = Teuchos::rcp(new Map(computeInternally,&newAIDs[0],newAIDs.size(),0,comm));
+   Teuchos::RCP<const Map> testMap = Teuchos::rcp(new Map(computeInternally,newAIDs.data(),newAIDs.size(),0,comm));
    Teuchos::RCP<const Map> newAIDsMap; 
    // source must be unique across communicator
    if (!testMap->isOneToOne()){
@@ -273,7 +273,7 @@ void updateMapping(Teuchos::RCP<std::vector<std::pair<size_t,size_t> > > & curre
       newAIDsMap = testMap;
    }
 
-   Teuchos::RCP<Map> requestedAIDsMap = Teuchos::rcp(new Map(computeInternally,&requestedAIDs[0],requestedAIDs.size(),0,comm));
+   Teuchos::RCP<Map> requestedAIDsMap = Teuchos::rcp(new Map(computeInternally,requestedAIDs[0].data(),requestedAIDs.size(),0,comm));
 
    Importer importer(newAIDsMap,requestedAIDsMap);
 
